@@ -34,8 +34,7 @@ server.get('/', (req, res) => {
 
 server.post('/api/tests/login-react-redux/login', (req, res) => {
   db.findOne("user", {
-      email: req.body.email,
-      password: req.body.password
+      email: req.body.email
   })
   .then(result => {
     if(result) {
