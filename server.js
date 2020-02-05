@@ -38,20 +38,25 @@ server.post('/api/tests/login-react-redux/login', (req, res) => {
   })
   .then(result => {
     if(result) {
-      bcrypt.compare(req.body.password, result.password, (err, isValid) => {
-        if (err) {
-          console.log(err)
-          return reject({message: "Nome de Usuário ou Senha Incorretos."})
-        }
+      if(Object.keys(result).length > 0) { 
+        bcrypt.compare(req.body.password, result.password, (err, isValid) => {
+          if (err) {
+            return reject({message: "Nome de Usuário ou Senha Incorretos."})
+          }
 
-        else if (!isValid) {
-          return reject({message: "Nome de Usuário ou Senha Incorretos."})
-        }
+          else if (!isValid) {
+            return reject({message: "Nome de Usuário ou Senha Incorretos."})
+          }
 
-        else {
-          return resolve(result)
-        }
-      })
+          else {
+            return resolve(result)
+          }
+        })
+      }
+
+      else {
+        return reject({message: "Nome de Usuário ou Senha Incorretos."})
+      }
     }
 
     else {
